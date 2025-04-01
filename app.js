@@ -36,6 +36,9 @@ app.post('/stop/:appName', (req, res) => {
   const appName = req.params.appName;
   withPM2((done) => {
     pm2.stop(appName, (err) => {
+	  if(appName === 'pm2-rest-api') {
+	    return res.status(500).send('API 앱 종료는 종료할 수 없습니다.');
+	  }  
       done();
       if (err) {
         console.error('❌ 종료 실패:', err);
